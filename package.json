@@ -1,43 +1,37 @@
 {
-  "name": "casmexplorer",
-  "displayName": "C-ASM Explorer",
-  "description": "Shows ASM result of C code compilation",
+  "name": "cppasmviewer",
+  "displayName": "C++ ASM Viewer",
+  "description": "Shows result of C/C++ code compilation using your local compiler in assembly language",
   "version": "0.0.1",
+  "icon": "media/icon-market.png",
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages", "Visualization", "Other"
   ],
   "activationEvents": [
-    "onCommand:c-asm-explorer.helloWorld"
+    "onCommand:cpp-asm-viewer.openAsmViewToTheSide"
   ],
   "main": "./out/extension.js",
 
   
   "contributes": {
 
+    "comment":"Команды для меню F1",
     "commands": [
       {
-        "command": "c-asm-explorer.openPreviewToTheSide",
-        "title": "C ASM Explorer"
+        "command": "cpp-asm-viewer.openAsmViewToTheSide",
+        "title": "%cpp-asm-viewer.openAsmViewToTheSide.title%",
+        "icon":  "media/icon-toolbar.png"
       }
     ],
 
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "c-asm-sidebar",
-          "title": "C ASM Explorer",
-          "icon": "$(book)"
-        }
-      ]
-    },
-
+    "comment":"Настройки, выносимые на панель Параметры->Расширения->C/C++ Asm Viewer",
     "configuration": {
-      "title": "C-ASM Explorer",
+      "title": "C/C++ Asm Viewer",
       "properties": {
-        "c-asm-explorer.compiler": {
+        "cpp-asm-viewer.compiler": {
           "type": "string",
           "default": "MSVC",
           "description": "Compiler.",
@@ -50,25 +44,41 @@
       }
     },
 
-    "views": {
-      "c-asm-sidebar": [
+    "comment":"Отдельная вкладка на primary sidebar со своей иконкой в activity bar",
+    "viewsContainers": {
+      "activitybar": [
         {
-          "id": "c-asm-configuration",
+          "id": "cpp-asm-viewer-sidebar",
+          "title": "C ASM Explorer",
+          "icon": "media/icon-sidebar.png"
+        }
+      ]
+    },
+
+    "comment":"View для вкладки на primary sidebar",
+    "views": {
+      "cpp-asm-viewer-sidebar": [
+        {
+          "id": "cpp-asm-viewer.configuration",
           "name": "Configuration"
         }
       ]
     },
 
+    "comment":"Кнопка в меню редактора, которая появляется только для файлов C и CPP",
+    "comment":"коды языков https://code.visualstudio.com/docs/languages/identifiers",
     "menus": {
       "editor/title": [
         {
-          "command": "c-asm-explorer.openPreviewToTheSide",
-          "when": "editorLangId == cpp",
+          "command": "cpp-asm-viewer.openAsmViewToTheSide",
+          "when": "editorLangId == cpp || editorLangId == c",
           "group": "navigation"
         }
       ]
     },
 
+    "comment":"Условие, когда происходит extension.ts activate()",
+    "comment":"коды языков https://code.visualstudio.com/docs/languages/identifiers",
     "activationEvents": [
       "onLanguage:c",
       "onLanguage:cpp"
